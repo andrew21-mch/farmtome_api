@@ -37,7 +37,19 @@ Route::get('/', function () {
 // auth middleware
 
 Route::group(['prefix' => 'v1', ['middleware' => 'auth:sanctum']], function () {
-//    products
+
+    /**  Products */
+    Route::group(['prefix' => 'products'], function () {
+        Route::get('/', [ProductController::class, 'index']);
+        Route::get('/{id}', [ProductController::class, 'show']);
+        Route::post('/', [ProductController::class, 'store']);
+        Route::put('/{id}', [ProductController::class, 'update']);
+        Route::delete('/{id}', [ProductController::class, 'destroy']);
+        Route::get('/search/{key}', [ProductController::class, 'search']);
+    });
+
+    /**  Intrands */
+
     Route::prefix('products')->group(function () {
         Route::get('/', [ProductController::class, 'index']);
         Route::get('/{id}', [ProductController::class, 'show']);
@@ -48,7 +60,8 @@ Route::group(['prefix' => 'v1', ['middleware' => 'auth:sanctum']], function () {
     });
 
 //    intrands
-    Route::prefix('intrands')->group(function () {
+
+    Route::group(['prefix' => 'intrands'], function () {
         Route::get('/', [IntrandsController::class, 'index']);
         Route::get('/{id}', [IntrandsController::class, 'show']);
         Route::post('/', [IntrandsController::class, 'store']);
@@ -58,7 +71,7 @@ Route::group(['prefix' => 'v1', ['middleware' => 'auth:sanctum']], function () {
     });
 
 //    orders
-    Route::prefix('orders')->group(function () {
+    Route::group(['prefix' => 'orders'], function () {
         Route::get('/', [OrderController::class, 'index']);
         Route::get('/{id}', [OrderController::class, 'show']);
         Route::post('/', [OrderController::class, 'store']);
@@ -68,7 +81,7 @@ Route::group(['prefix' => 'v1', ['middleware' => 'auth:sanctum']], function () {
     });
 
 //    users
-    Route::prefix('users')->group(function () {
+    Route::group(['prefix' => 'users'], function () {
         Route::get('/', [UserController::class, 'index']);
         Route::get('/{id}', [UserController::class, 'show']);
         Route::post('/', [UserController::class, 'store']);
