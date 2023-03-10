@@ -18,15 +18,72 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// structure of the api
+
 
 Route::get('/', function () {
     return response()->json([
-        'message' => 'Welcome to the API',
+        'message' => 'Welcome Agroconnect API',
         'version' => '1.0.0',
         'description' => 'This is an api to link consumer, farmers, and suppliers together'.
                             'to make the process of buying and selling of agricultural products easier'.
                             'and more efficient.'.
-                            'The api is built using laravel and is hosted on heroku and can be accessed at'.
+                            'The api is built using laravel and is hosted on heroku and can be accessed at '.
                             'https://agroconnect-api.herokuapp.com/api/v1',
     ]);
+});
+
+
+// auth middleware
+
+Route::group(['prefix' => 'v1', ['middleware' => 'auth:sanctum']], function () {
+//    products
+    Route::prefix('products')->group(function () {
+        Route::get('/', [ProductController::class, 'index']);
+        Route::get('/{id}', [ProductController::class, 'show']);
+        Route::post('/', [ProductController::class, 'store']);
+        Route::put('/{id}', [ProductController::class, 'update']);
+        Route::delete('/{id}', [ProductController::class, 'destroy']);
+        Route::get('/search/{key}', [ProductController::class, 'search']);
+    });
+
+//    intrands
+    Route::prefix('intrands')->group(function () {
+        Route::get('/', [IntrandsController::class, 'index']);
+        Route::get('/{id}', [IntrandsController::class, 'show']);
+        Route::post('/', [IntrandsController::class, 'store']);
+        Route::put('/{id}', [IntrandsController::class, 'update']);
+        Route::delete('/{id}', [IntrandsController::class, 'destroy']);
+        Route::get('/search/{key}', [IntrandsController::class, 'search']);
+    });
+
+//    orders
+    Route::prefix('orders')->group(function () {
+        Route::get('/', [OrderController::class, 'index']);
+        Route::get('/{id}', [OrderController::class, 'show']);
+        Route::post('/', [OrderController::class, 'store']);
+        Route::put('/{id}', [OrderController::class, 'update']);
+        Route::delete('/{id}', [OrderController::class, 'destroy']);
+        Route::get('/search/{key}', [OrderController::class, 'search']);
+    });
+
+//    users
+    Route::prefix('users')->group(function () {
+        Route::get('/', [UserController::class, 'index']);
+        Route::get('/{id}', [UserController::class, 'show']);
+        Route::post('/', [UserController::class, 'store']);
+        Route::put('/{id}', [UserController::class, 'update']);
+        Route::delete('/{id}', [UserController::class, 'destroy']);
+        Route::get('/search/{key}', [UserController::class, 'search']);
+    });
+
+    // transactions
+    Route::prefix('transactions')->group(function () {
+        Route::get('/', [TransactionController::class, 'index']);
+        Route::get('/{id}', [TransactionController::class, 'show']);
+        Route::post('/', [TransactionController::class, 'store']);
+        Route::put('/{id}', [TransactionController::class, 'update']);
+        Route::delete('/{id}', [TransactionController::class, 'destroy']);
+        Route::get('/search/{key}', [TransactionController::class, 'search']);
+    });
 });
