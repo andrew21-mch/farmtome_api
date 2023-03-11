@@ -8,7 +8,7 @@ Through this api, consumers can search for farmers and suppliers in their area. 
 
 Farmers and suppliers can create an account and add their products to the database. They can also update and delete their products.
 
-Visit the [Full Description](https://github.com/andrew21-mch/farm-to-me-api/blob/master/DESCRIPTION.md) for more details.
+Visit the [Full Description](https://github.com/andrew21-mch/farmtome_api/blob/main/DESCRIPTION.md) for more details.
 
 ## Technologies Used
 
