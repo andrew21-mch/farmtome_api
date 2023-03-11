@@ -30,6 +30,7 @@ class AuthController extends Controller
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'phone' => $request->phone,
+                'location' => $request->location,
             ]);
 
             UserResponse::register($user, $user->createToken('authToken')->accessToken);
