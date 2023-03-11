@@ -40,10 +40,8 @@ Route::get('/', function () {
 });
 
 
-// auth middleware
-
-Route::group(['prefix' => 'v1', ['middleware' => 'auth:sanctum']], function () {
-
+// wrap all routes in sanctum middleware with v1 prefix
+Route::group(['prefix' => 'v1', 'middleware' => 'auth:sanctum'], function () {
     /**  Products */
     Route::group(['prefix' => 'products'], function () {
         Route::get('/', [ProductController::class, 'index']);
@@ -84,6 +82,7 @@ Route::group(['prefix' => 'v1', ['middleware' => 'auth:sanctum']], function () {
         Route::put('/{id}', [UserController::class, 'update']);
         Route::delete('/{id}', [UserController::class, 'destroy']);
         Route::get('/search/{key}', [UserController::class, 'search']);
+        Route::post('logout', [AuthController::class, 'logout']);
     });
 
     /**  Transactions */
