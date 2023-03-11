@@ -1,6 +1,7 @@
 A user creates a new account on the website.
 user creates either a farm or a supply shop
 
+
 if a user creates a farm, they are prompted to enter the following information:
 - farm name
 - farm location
@@ -107,6 +108,7 @@ As a supplier, I want to be able to edit the information about an intrand.
 As a supplier, I want to be able to delete an intrand.
 
 As a supplier, I want to be able to view a list of all the orders I have received for an intrand for my supply shop.
+
 
 
 
