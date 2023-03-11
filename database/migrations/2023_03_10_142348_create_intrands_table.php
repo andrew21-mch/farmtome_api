@@ -17,7 +17,10 @@ return new class extends Migration
             $table->string('description');
             $table->string('price');
             $table->string('image');
-            $table->foreignId('user_id')->constrained();
+            $table->bigInteger('supplier_id')->unsigned();
+            $table->foreign('supplier_id')->references('id')->on('users');
+            $table->bigInteger('supplier_shop_id')->unsigned();
+            $table->foreign('supplier_shop_id')->references('id')->on('supplier_shops');
             $table->timestamps();
         });
     }

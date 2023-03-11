@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('location');
-            $table->integer('supplier_id')->unsigned();
+            $table->bigInteger('supplier_id')->unsigned();
             $table->foreign('supplier_id')->references('id')->on('users');
             $table->timestamps();
         });
