@@ -23,15 +23,25 @@ class Order extends Model
         return $this->belongsTo(Intrand::class);
     }
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
     public function product()
     {
         return $this->belongsTo(Product::class);
     }
 
-    
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function farm()
+    {
+        return $this->belongsTo(Farm::class);
+    }
+
+    public function supplierShop()
+    {
+        return $this->belongsTo(SupplierShop::class);
+    }
+
+
 }

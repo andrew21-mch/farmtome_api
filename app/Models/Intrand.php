@@ -22,7 +22,7 @@ class Intrand extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(SupplierShop::class);
     }
 
     public function orders()

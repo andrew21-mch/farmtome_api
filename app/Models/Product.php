@@ -17,14 +17,14 @@ class Product extends Model
         'user_id',
     ];
 
-    public function user()
+    public function createdBy()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function orders()
+    public function farm()
     {
-        return $this->hasMany(Order::class);
+        return $this->belongsTo(Farm::class);
     }
 
 }
