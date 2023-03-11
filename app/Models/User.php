@@ -55,5 +55,15 @@ class User extends Authenticatable
         return $this->hasMany(SupplierShop::class);
     }
 
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
 
 }
