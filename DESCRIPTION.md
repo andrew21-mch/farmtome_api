@@ -100,7 +100,7 @@ a user can cancel an order.
 
 ## Entity Relationship Diagram / DB
 
-![ERD](https://github.com/andrew21-mch/farmtome_api/main/public/farm_to_me.png)
+![ERD](https://github.com/andrew21-mch/farmtome_api/blob/main/public/farm_to_me.png)
 
 ## Wireframes
 
