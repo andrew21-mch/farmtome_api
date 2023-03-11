@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\IntrandController;
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\TransactionController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\IntrandsController;
+use App\Http\Controllers\Api\OrderController;
+use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\TransactionController;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -92,6 +93,49 @@ Route::group(['prefix' => 'v1', ['middleware' => 'auth:sanctum']], function () {
         Route::post('/', [TransactionController::class, 'store']);
         Route::put('/{id}', [TransactionController::class, 'update']);
         Route::delete('/{id}', [TransactionController::class, 'destroy']);
+        Route::get('/search/{key}', [TransactionController::class, 'search']);
+    });
+});
+
+
+// public routes
+Route::group(['prefix' => 'v1'], function () {
+    /**  Products */
+    Route::group(['prefix' => 'products'], function () {
+        Route::get('/', [ProductController::class, 'index']);
+        Route::get('/{id}', [ProductController::class, 'show']);
+        Route::get('/search/{key}', [ProductController::class, 'search']);
+    });
+
+    /**  Intrands */
+    Route::group(['prefix' => 'intrands'], function () {
+        Route::get('/', [IntrandController::class, 'index']);
+        Route::get('/{id}', [IntrandController::class, 'show']);
+        Route::get('/search/{key}', [IntrandController::class, 'search']);
+    });
+
+    /**  Orders */
+    Route::group(['prefix' => 'orders'], function () {
+        Route::get('/', [OrderController::class, 'index']);
+        Route::get('/{id}', [OrderController::class, 'show']);
+        Route::get('/search/{key}', [OrderController::class, 'search']);
+    });
+
+    /**  Users */
+    Route::group(['prefix' => 'users'], function () {
+        Route::get('/', [UserController::class, 'index']);
+        Route::get('/{id}', [UserController::class, 'show']);
+        Route::get('/search/{key}', [UserController::class, 'search']);
+        // register
+        Route::post('/register', [AuthController::class, 'register']);
+        // login
+        Route::post('/login', [AuthController::class, 'login']);
+    });
+
+    /**  Transactions */
+    Route::group(['prefix' => 'transactions'], function () {
+        Route::get('/', [TransactionController::class, 'index']);
+        Route::get('/{id}', [TransactionController::class, 'show']);
         Route::get('/search/{key}', [TransactionController::class, 'search']);
     });
 });

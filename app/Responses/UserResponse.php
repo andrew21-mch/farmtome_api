@@ -1,5 +1,5 @@
 <?php
-
+namespace App\Responses;
 class UserResponse
 {
     public static function register($user, $token)

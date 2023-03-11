@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Responses\UserResponse;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use UserResponse;
 
 class AuthController extends Controller
 {
@@ -16,7 +16,7 @@ class AuthController extends Controller
         $validators = Validator::make($request->all(), [
             'name' => 'required|string',
             'email' => 'required|string|email|unique:users',
-            'password' => 'required|string|confirmed',
+            'password' => 'required|string',
             'phone' => 'required|string|unique:users',
         ]);
 
@@ -33,7 +33,9 @@ class AuthController extends Controller
                 'location' => $request->location,
             ]);
 
-            UserResponse::register($user, $user->createToken('authToken')->accessToken);
+            $user->assignRole('customer');
+
+            return UserResponse::register($user, $user->createToken('authToken')->plainTextToken);
         }catch(\Exception $e){
             return response()->json($e->getMessage(), 500);
         }
@@ -58,14 +60,20 @@ class AuthController extends Controller
                 'message' => 'Invalid credentials'
             ], 401);
         }
-
-        UserResponse::login($user, $user->createToken('authToken')->accessToken);
+        return UserResponse::login($user, $user->createToken('authToken')->plainTextToken);
     }
 
     public function logout(Request $request)
     {
         $request->user()->token()->revoke();
 
-        UserResponse::logout($request->user());
+        return UserResponse::logout($request->user());
+    }
+
+    public function getRoles(Request $request)
+    {
+        $user = $request->user();
+        $user->roles = $user->getRolesNames();
+        return UserResponse::me($user);
     }
 }
