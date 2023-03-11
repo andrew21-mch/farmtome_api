@@ -3,14 +3,15 @@
 A user creates a new account on the website.
 user creates either a farm or a supply shop
 
-
 if a user creates a farm, they are prompted to enter the following information:
+
 - farm name
 - farm location
 - farm image
 - farm description
 
 if a user creates a supply shop, they are prompted to enter the following information:
+
 - supply shop name
 - supply shop location
 - supply shop image
@@ -58,11 +59,9 @@ a supplier can view a list of all the orders they have received for an intrand.
 
 a user can cancel an order.
 
-
-
 ## User Stories
 
-**User**
+### User
 
 - As a user, I want to be able to create an account on the website.
 
@@ -81,39 +80,37 @@ a user can cancel an order.
 - As a user, I want to be able to view a list of all the orders I have placed.
 - As a user, I want to be able to cancel an order.
 
-**Farmer**
+### Farmer
+
 - As a farmer, I want to be able to view a list of all the products I sell.
 - As a farmer, I want to be able to add a new product to my list of products.
 - As a farmer, I want to be able to edit the information about a product.
 - As a farmer, I want to be able to delete a product.
 - As a farmer, I want to be able to view a list of all the orders I have received for a product for my farm.
 
-**Supplier**
+### Supplier
+
 - As a supplier, I want to be able to view a list of all the products I sell.
 - As a supplier, I want to be able to add a new product to my list of intrands.
 - As a supplier, I want to be able to edit the information about an intrand.
 - As a supplier, I want to be able to delete an intrand.
 - As a supplier, I want to be able to view a list of all the orders I have received for an intrand for my supply shop.
 
-
-
-
-
 <!-- convert above to markdown -->
 
-**Entity Relationship Diagram**
+## Entity Relationship Diagram / DB
 
-![ERD](https://somwthing.com)
+![ERD](https://github.com/andrew21-mch/farmtome_api/main/public/farm_to_me.png)
 
-**Wireframes**
+## Wireframes
 
 ![Wireframes](https://somwthing.com)
 
-**UseCase Diagram**
+## UseCase Diagram
+
 ![USECASE](https://somwthing.com)
 
-
-**Technologies Used**
+## Technologies Used
 
 - PHP
 - MySQL
@@ -123,7 +120,7 @@ a user can cancel an order.
 - Flutter
 - Dart
 
-**Features**
+## Features
 
 - User Authentication
 - Farm CRUD
@@ -132,6 +129,3 @@ a user can cancel an order.
 - Product CRUD
 - Order CRUD
 - Intrand CRUD
-
-
-
