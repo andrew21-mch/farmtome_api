@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\FarmController;
 use App\Http\Controllers\Api\IntrandsController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ProductController;
@@ -94,6 +95,13 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth:sanctum'], function () {
         Route::delete('/{id}', [TransactionController::class, 'destroy']);
         Route::get('/search/{key}', [TransactionController::class, 'search']);
     });
+
+    /**  Farms */
+    Route::group(['prefix' => 'farms'], function () {
+        Route::post('/', [FarmController::class, 'store']);
+        Route::put('/{id}', [TransactionController::class, 'update']);
+        Route::delete('/{id}', [TransactionController::class, 'destroy']);
+    });
 });
 
 
@@ -125,9 +133,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('/', [UserController::class, 'index']);
         Route::get('/{id}', [UserController::class, 'show']);
         Route::get('/search/{key}', [UserController::class, 'search']);
-        // register
         Route::post('/register', [AuthController::class, 'register']);
-        // login
         Route::post('/login', [AuthController::class, 'login']);
     });
 
@@ -136,5 +142,14 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('/', [TransactionController::class, 'index']);
         Route::get('/{id}', [TransactionController::class, 'show']);
         Route::get('/search/{key}', [TransactionController::class, 'search']);
+    });
+
+    /** Farms */
+
+    Route::group(['prefix' => 'farms'], function (){
+        Route::get('/', [FarmController::class, 'index']);
+        Route::get('/{id}', [FarmController::class, 'show']);
+        Route::get('/{userId}', [FarmControlloer::class, 'user_farms']);
+        Route::get('/search/{key}', [FarmController::class, 'search']);
     });
 });

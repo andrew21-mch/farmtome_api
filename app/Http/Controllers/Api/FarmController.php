@@ -131,4 +131,17 @@ class FarmController extends Controller
             'message' => "Farm successfully deleted"
         ]);
     }
+
+    public function search($key){
+
+        $farms = Farm::with('products')->where('name', 'like', '%' . $key . '%')
+        ->orWhere('location', 'like', '%' . $key . '%')->paginate(5);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Farms fetched successfully',
+            'farms' => $farms
+        ]);
+
+    }
 }
