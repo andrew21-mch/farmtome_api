@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\FarmController;
 use App\Http\Controllers\Api\IntrandsController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\SupplyShopController;
 use App\Http\Controllers\Api\TransactionController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
@@ -96,12 +97,20 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth:sanctum'], function () {
         Route::get('/search/{key}', [TransactionController::class, 'search']);
     });
 
-    /**  Farms */
+    /**  Farms **DONE** */
     Route::group(['prefix' => 'farms'], function () {
         Route::post('/', [FarmController::class, 'store']);
         Route::put('/{id}', [TransactionController::class, 'update']);
         Route::delete('/{id}', [TransactionController::class, 'destroy']);
     });
+
+    /** Supplier Shops **DONE** */
+    Route::group(['prefix' => 'supply-shops'], function () {
+        Route::post('/', [SupplyShopController::class, 'store']);
+        Route::put('/{id}', [SupplyShopController::class, 'update']);
+        Route::delete('/{id}', [SupplyShopController::class, 'destroy']);
+    });
+
 });
 
 
@@ -121,35 +130,27 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('/search/{key}', [IntrandController::class, 'search']);
     });
 
-    /**  Orders */
-    Route::group(['prefix' => 'orders'], function () {
-        Route::get('/', [OrderController::class, 'index']);
-        Route::get('/{id}', [OrderController::class, 'show']);
-        Route::get('/search/{key}', [OrderController::class, 'search']);
-    });
-
-    /**  Users */
-    Route::group(['prefix' => 'users'], function () {
-        Route::get('/', [UserController::class, 'index']);
-        Route::get('/{id}', [UserController::class, 'show']);
-        Route::get('/search/{key}', [UserController::class, 'search']);
+    /**  Users **DONE***/
+    Route::group(['prefix' => 'auth'], function () {
         Route::post('/register', [AuthController::class, 'register']);
         Route::post('/login', [AuthController::class, 'login']);
     });
 
-    /**  Transactions */
-    Route::group(['prefix' => 'transactions'], function () {
-        Route::get('/', [TransactionController::class, 'index']);
-        Route::get('/{id}', [TransactionController::class, 'show']);
-        Route::get('/search/{key}', [TransactionController::class, 'search']);
-    });
 
-    /** Farms */
+    /** Farms Public Routes **DONE** */
 
     Route::group(['prefix' => 'farms'], function (){
         Route::get('/', [FarmController::class, 'index']);
         Route::get('/{id}', [FarmController::class, 'show']);
         Route::get('/{userId}', [FarmControlloer::class, 'user_farms']);
         Route::get('/search/{key}', [FarmController::class, 'search']);
+    });
+
+    /** Supplier Shops  Public Routes **DONE***/
+    Route::group(['prefix' => 'supply_shops'], function() {
+        Route::get('/', [SupplyShopController::class, 'index']);
+        Route::get('/{id}', [SupplyShopController::class, 'show']);
+        Route::get('/{userId}', [SupplyShopController::class, 'user_supply_shops']);
+        Route::get('/search/{key}', [SupplyShopController::class, 'search']);
     });
 });
