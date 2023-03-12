@@ -42,20 +42,23 @@ class FarmController extends Controller
         $validators = Validator::make($request->all(), [
             'name' => 'required|string',
             'location' => 'required|string',
-            'user_id' => 'required|integer',
         ]);
 
         if ($validators->fails()) {
             return response()->json($validators->errors()->toJson(), 400);
         }
 
+        $user = auth()->user();
         try {
             $farm = Farm::create([
                 'name' => $request->name,
                 'location' => $request->location,
-                'user_id' => $request->user_id,
+                'user_id' => $user->id
             ]);
 
+            if(!$user->hasRole('farmer')){
+                $user->assignRole('farmer');
+            }
             return response()->json([
                 'message' => 'Farm created successfully',
                 'farm' => $farm
