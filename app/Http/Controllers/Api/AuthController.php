@@ -71,7 +71,7 @@ class AuthController extends Controller
         return UserResponse::logout($request->user());
     }
 
-    public function getRoles(Request $request)
+    public function user(Request $request)
     {
         $user = $request->user();
         $user->roles = $user->getRolesNames();
