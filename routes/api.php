@@ -46,12 +46,9 @@ Route::get('/', function () {
 Route::group(['prefix' => 'v1', 'middleware' => 'auth:sanctum'], function () {
     /**  Products */
     Route::group(['prefix' => 'products'], function () {
-        Route::get('/', [ProductController::class, 'index']);
-        Route::get('/{id}', [ProductController::class, 'show']);
         Route::post('/', [ProductController::class, 'store']);
         Route::put('/{id}', [ProductController::class, 'update']);
         Route::delete('/{id}', [ProductController::class, 'destroy']);
-        Route::get('/search/{key}', [ProductController::class, 'search']);
     });
 
     /**  Intrands */

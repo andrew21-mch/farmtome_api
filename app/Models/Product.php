@@ -14,7 +14,8 @@ class Product extends Model
         'description',
         'price',
         'image',
-        'user_id',
+        'farm_id',
+        'farmer_id',
     ];
 
     public function createdBy()
