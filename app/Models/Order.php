@@ -12,15 +12,15 @@ class Order extends Model
     protected $fillable = [
         'AgroInput_id',
         'product_id',
-        'user_id',
-        'order_date',
-        'total_price',
+        'customer_id',
+        'supplier_shop_id',
+        'farm_id',
         'status',
     ];
 
     public function AgroInput()
     {
-        return $this->belongsTo(AgroInput::class);
+        return $this->belongsTo(AgroInput::class, 'AgroInput_id');
     }
 
     public function product()

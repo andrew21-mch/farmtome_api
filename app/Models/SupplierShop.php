@@ -25,5 +25,10 @@ class SupplierShop extends Model
         return $this->hasMany(AgroInput::class);
     }
 
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
 
 }

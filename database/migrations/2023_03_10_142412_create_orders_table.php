@@ -16,14 +16,14 @@ return new class extends Migration
             // orders is made by a user, to a farm or shop
             $table->bigInteger('customer_id')->unsigned();
             $table->foreign('customer_id')->references('id')->on('users');
-            $table->bigInteger('product_id')->unsigned();
-            $table->foreign('product_id')->references('id')->on('products')->nullable();
-            $table->bigInteger('AgroInput_id')->unsigned();
-            $table->foreign('AgroInput_id')->references('id')->on('agro_inputs')->nullable();
-            $table->bigInteger('farm_id')->unsigned();
-            $table->foreign('farm_id')->references('id')->on('farms')->nullable();
-            $table->bigInteger('supplier_shop_id')->unsigned();
-            $table->foreign('supplier_shop_id')->references('id')->on('supplier_shops')->nullable();
+            $table->bigInteger('product_id')->unsigned()->nullable();
+            $table->foreign('product_id')->references('id')->on('products');
+            $table->bigInteger('AgroInput_id')->unsigned()->nullable();
+            $table->foreign('AgroInput_id')->references('id')->on('agro_inputs');
+            $table->bigInteger('farm_id')->unsigned()->nullable();
+            $table->foreign('farm_id')->references('id')->on('farms');
+            $table->bigInteger('supplier_shop_id')->unsigned()->nullable();
+            $table->foreign('supplier_shop_id')->references('id')->on('supplier_shops');
             $table->string('status')->default('pending');
             $table->string('payment_method')->default('cash');
             $table->string('payment_status')->default('pending');
