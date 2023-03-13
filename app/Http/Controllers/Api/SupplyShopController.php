@@ -12,7 +12,7 @@ class SupplyShopController extends Controller
 {
     public function index(): \Illuminate\Http\JsonResponse
     {
-        $supplyShops = SupplierShop::with('user')->get();
+        $supplyShops = SupplierShop::with('supplier')->get();
         return response()->json([
             'status' => 'success',
             'message' => 'Supply shops fetched successfully',
@@ -76,7 +76,7 @@ class SupplyShopController extends Controller
             $supplyShop = SupplierShop::create([
                 'name' => $request->name,
                 'location' => $request->location,
-                'user_id' => $user->id
+                'supplier_id' => $user->id
             ]);
 
             if(!$user->hasRole('supplier')){
@@ -102,7 +102,6 @@ class SupplyShopController extends Controller
         $validators = Validator::make($request->all(), [
             'name' => 'required|string',
             'location' => 'required|string',
-            'id' => 'required|integer'
         ]);
 
         if ($validators->fails()) {
@@ -118,7 +117,7 @@ class SupplyShopController extends Controller
         }
 
         $user = auth()->user();
-        if($user->id !== $supplyShop->user_id){
+        if($user->id !== $supplyShop->supplier_id){
             return response()->json([
                 'status' => 'error',
                 'message' => 'You are not authorized to update this supply shop'
@@ -156,7 +155,7 @@ class SupplyShopController extends Controller
         }
 
         $user = auth()->user();
-        if($user->id !== $supplyShop->user_id){
+        if($user->id !== $supplyShop->supplier_id){
             return response()->json([
                 'status' => 'error',
                 'message' => 'You are not authorized to delete this supply shop'

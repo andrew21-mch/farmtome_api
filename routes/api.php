@@ -100,12 +100,12 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth:sanctum'], function () {
     /**  Farms **DONE** */
     Route::group(['prefix' => 'farms'], function () {
         Route::post('/', [FarmController::class, 'store']);
-        Route::put('/{id}', [TransactionController::class, 'update']);
-        Route::delete('/{id}', [TransactionController::class, 'destroy']);
+        Route::put('/{id}', [FarmController::class, 'update']);
+        Route::delete('/{id}', [FarmController::class, 'destroy']);
     });
 
     /** Supplier Shops **DONE** */
-    Route::group(['prefix' => 'supply-shops'], function () {
+    Route::group(['prefix' => 'supply_shops'], function () {
         Route::post('/', [SupplyShopController::class, 'store']);
         Route::put('/{id}', [SupplyShopController::class, 'update']);
         Route::delete('/{id}', [SupplyShopController::class, 'destroy']);

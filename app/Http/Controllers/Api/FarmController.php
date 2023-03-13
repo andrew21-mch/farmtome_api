@@ -11,7 +11,7 @@ class FarmController extends Controller
 {
     public function index(): \Illuminate\Http\JsonResponse
     {
-        $farms = Farm::with('user')->get();
+        $farms = Farm::with('farmer')->get();
         return response()->json([
             'message' => 'Farms fetched successfully',
             'farms' => $farms
@@ -53,7 +53,7 @@ class FarmController extends Controller
             $farm = Farm::create([
                 'name' => $request->name,
                 'location' => $request->location,
-                'user_id' => $user->id
+                'farmer_id' => $user->id
             ]);
 
             if(!$user->hasRole('farmer')){
@@ -82,7 +82,7 @@ class FarmController extends Controller
             ], 404);
         }
 
-        if ($user->id != $farm->user_id) {
+        if ($user->id != $farm->farmer_id) {
             return response()->json([
                 'status' => 'Unauthorized',
                 'messages' => 'You are not the owner of this farm so you can not edit it'
@@ -105,7 +105,8 @@ class FarmController extends Controller
             $farm->save();
             return response()->json([
                 'status' => 'success',
-                'message' => 'Farm successfully updated'
+                'message' => 'Farm successfully updated',
+                'farm' => $farm
             ]);
         } catch (\Exception $e) {
             return response()->json([
