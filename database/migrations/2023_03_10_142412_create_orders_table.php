@@ -18,8 +18,8 @@ return new class extends Migration
             $table->foreign('customer_id')->references('id')->on('users');
             $table->bigInteger('product_id')->unsigned();
             $table->foreign('product_id')->references('id')->on('products')->nullable();
-            $table->bigInteger('intrand_id')->unsigned();
-            $table->foreign('intrand_id')->references('id')->on('intrands')->nullable();
+            $table->bigInteger('AgroInput_id')->unsigned();
+            $table->foreign('AgroInput_id')->references('id')->on('agro_inputs')->nullable();
             $table->bigInteger('farm_id')->unsigned();
             $table->foreign('farm_id')->references('id')->on('farms')->nullable();
             $table->bigInteger('supplier_shop_id')->unsigned();

@@ -20,9 +20,9 @@ class SupplierShop extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function intrands()
+    public function AgroInputs()
     {
-        return $this->hasMany(Intrand::class);
+        return $this->hasMany(AgroInput::class);
     }
 
 

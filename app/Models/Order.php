@@ -10,7 +10,7 @@ class Order extends Model
     use HasFactory;
 
     protected $fillable = [
-        'intrand_id',
+        'AgroInput_id',
         'product_id',
         'user_id',
         'order_date',
@@ -18,9 +18,9 @@ class Order extends Model
         'status',
     ];
 
-    public function intrand()
+    public function AgroInput()
     {
-        return $this->belongsTo(Intrand::class);
+        return $this->belongsTo(AgroInput::class);
     }
 
     public function product()
