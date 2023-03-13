@@ -18,7 +18,8 @@ class ProductController extends Controller
     {
         $products = Product::with('farm')->get();
         return response()->json([
-            'message' => 'success',
+            'status' => 'success',
+            'message' => 'Products successfully retrieved',
             'data' => $products
         ]);
     }
@@ -27,21 +28,23 @@ class ProductController extends Controller
     {
         $product = Product::with('farm')->find($id);
         return response()->json([
-            'message' => 'success',
+            'status' => 'success',
+            'message' => 'Product successfully retrieved',
             'data' => $product
         ]);
     }
 
-    public function farmProduct($farmId){
+    public function farmProduct($farmId)
+    {
         $farm = Farm::find($farmId);
-        if(!$farm){
+        if (!$farm) {
             return response()->json([
                 'status' => 'errpr',
                 'message' => 'farm not found'
             ]);
         }
 
-        $products = Product::with('farmer')->where('id',$farmId)->get();
+        $products = Product::with('farmer')->where('id', $farmId)->get();
         return response()->json([
             'status' => 'success',
             'message' => 'Products successfully retrieved',
@@ -52,10 +55,10 @@ class ProductController extends Controller
     public function search($key)
     {
         $products = Product::with('farm')
-        ->where('name', 'like', '%' . $key . '%')
-        ->orWhere('description', 'like', '%' . $key . '%')
-        ->orWhere('price', 'like', '%' . $key . '%')
-        ->get();
+            ->where('name', 'like', '%' . $key . '%')
+            ->orWhere('description', 'like', '%' . $key . '%')
+            ->orWhere('price', 'like', '%' . $key . '%')
+            ->get();
         return response()->json([
             'status' => 'success',
             'message' => 'Products successfully retrieved',
@@ -69,7 +72,7 @@ class ProductController extends Controller
             'description' => 'required|string',
             'price' => 'required|numeric',
             'farm_id' => 'required|numeric',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            // 'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         if ($validator->fails()) {
@@ -84,14 +87,26 @@ class ProductController extends Controller
                 'description' => $request->description,
                 'price' => $request->price,
                 'farm_id' => $request->farm_id,
+                'farmer_id' => auth()->user()->id
             ]);
-
+            if (!$request->file('image')) {
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Product successfully created',
+                    'data' => $product
+                ]);
+            }
             $image = $request->file('image');
             $name = time() . '.' . $image->getClientOriginalExtension();
             $destinationPath = public_path('/images');
             $image->move($destinationPath, $name);
             $product->image = $name;
             $product->save();
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Product successfully created',
+                'data' => $product
+            ]);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'error',
@@ -154,8 +169,10 @@ class ProductController extends Controller
             ]);
         }
         try {
-            $image_path = public_path('/images/' . $product->image);
-            unlink($image_path);
+            if ($product->image) {
+                $image_path = public_path('/images/' . $product->image);
+                unlink($image_path);
+            }
             $product->delete();
             return response()->json([
                 'message' => 'success',

@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -18,7 +19,7 @@ class Product extends Model
         'farmer_id',
     ];
 
-    public function createdBy()
+    public function farmer()
     {
         return $this->belongsTo(User::class);
     }
