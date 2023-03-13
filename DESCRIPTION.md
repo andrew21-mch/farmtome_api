@@ -108,7 +108,7 @@ a user can cancel an order.
 
 ## UseCase Diagram
 
-![USECASE](https://somwthing.com)
+![USECASE](https://github.com/andrew21-mch/farmtome_api/blob/main/public/agro.png)
 
 ## Technologies Used
 
