@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\FarmController;
-use App\Http\Controllers\Api\IntrandsController;
+use App\Http\Controllers\Api\AgroInputController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\SupplyShopController;
@@ -45,12 +45,12 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth:sanctum'], function () {
         Route::delete('/{id}', [ProductController::class, 'destroy']);
     });
 
-    /**  Intrands */
+    /**  AgroInputs */
 
-    Route::group(['prefix' => 'intrands'], function () {
-        Route::post('/', [IntrandsController::class, 'store']);
-        Route::put('/{id}', [IntrandsController::class, 'update']);
-        Route::delete('/{id}', [IntrandsController::class, 'destroy']);
+    Route::group(['prefix' => 'AgroInputs'], function () {
+        Route::post('/', [AgroInputController::class, 'store']);
+        Route::put('/{id}', [AgroInputController::class, 'update']);
+        Route::delete('/{id}', [AgroInputController::class, 'destroy']);
     });
 
     /**  Orders */
@@ -105,11 +105,11 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('/search/{key}', [ProductController::class, 'search']);
     });
 
-    /**  Intrands */
-    Route::group(['prefix' => 'intrands'], function () {
-        Route::get('/', [IntrandController::class, 'index']);
-        Route::get('/{id}', [IntrandController::class, 'show']);
-        Route::get('/search/{key}', [IntrandController::class, 'search']);
+    /**  AgroInputs */
+    Route::group(['prefix' => 'AgroInputs'], function () {
+        Route::get('/', [AgroInputController::class, 'index']);
+        Route::get('/{id}', [AgroInputController::class, 'show']);
+        Route::get('/search/{key}', [AgroInputController::class, 'search']);
     });
 
     /**  Users **DONE***/

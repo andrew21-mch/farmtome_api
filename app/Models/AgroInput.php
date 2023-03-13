@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Intrand extends Model
+class AgroInput extends Model
 {
     use HasFactory;
 
-    // intrands are farm tool or equipment
+    // AgroInputs are farm tool or equipment
     // that are available for rent
 
     protected $fillable = [
@@ -17,7 +17,8 @@ class Intrand extends Model
         'description',
         'price',
         'image',
-        'user_id',
+        'supplier_id',
+        'supplier_shop_id'
     ];
 
     public function user()

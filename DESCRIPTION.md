@@ -49,13 +49,13 @@ a farmer can view a list of all the orders they have received for a product.
 
 a supplier can view a list of all the products they sell.
 
-a supplier can add a new product to their list of intrands.
+a supplier can add a new product to their list of AgroInputs.
 
-a supplier can edit the information about an intrand.
+a supplier can edit the information about an AgroInput.
 
-a supplier can delete an intrand.
+a supplier can delete an AgroInput.
 
-a supplier can view a list of all the orders they have received for an intrand.
+a supplier can view a list of all the orders they have received for an AgroInput.
 
 a user can cancel an order.
 
@@ -91,10 +91,10 @@ a user can cancel an order.
 ### Supplier
 
 - As a supplier, I want to be able to view a list of all the products I sell.
-- As a supplier, I want to be able to add a new product to my list of intrands.
-- As a supplier, I want to be able to edit the information about an intrand.
-- As a supplier, I want to be able to delete an intrand.
-- As a supplier, I want to be able to view a list of all the orders I have received for an intrand for my supply shop.
+- As a supplier, I want to be able to add a new product to my list of AgroInputs.
+- As a supplier, I want to be able to edit the information about an AgroInput.
+- As a supplier, I want to be able to delete an AgroInput.
+- As a supplier, I want to be able to view a list of all the orders I have received for an AgroInput for my supply shop.
 
 <!-- convert above to markdown -->
 
@@ -128,4 +128,4 @@ a user can cancel an order.
 - User Profile
 - Product CRUD
 - Order CRUD
-- Intrand CRUD
+- AgroInput CRUD
