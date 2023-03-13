@@ -8,7 +8,6 @@ use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\SupplyShopController;
 use App\Http\Controllers\Api\TransactionController;
 use App\Http\Controllers\Api\UserController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,11 +21,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-// structure of the api
 
 
 Route::get('/', function () {
@@ -54,22 +48,16 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth:sanctum'], function () {
     /**  Intrands */
 
     Route::group(['prefix' => 'intrands'], function () {
-        Route::get('/', [IntrandsController::class, 'index']);
-        Route::get('/{id}', [IntrandsController::class, 'show']);
         Route::post('/', [IntrandsController::class, 'store']);
         Route::put('/{id}', [IntrandsController::class, 'update']);
         Route::delete('/{id}', [IntrandsController::class, 'destroy']);
-        Route::get('/search/{key}', [IntrandController::class, 'search']);
     });
 
     /**  Orders */
     Route::group(['prefix' => 'orders'], function () {
-        Route::get('/', [OrderController::class, 'index']);
-        Route::get('/{id}', [OrderController::class, 'show']);
         Route::post('/', [OrderController::class, 'store']);
         Route::put('/{id}', [OrderController::class, 'update']);
         Route::delete('/{id}', [OrderController::class, 'destroy']);
-        Route::get('/search/{key}', [OrderController::class, 'search']);
     });
 
 
@@ -86,12 +74,9 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth:sanctum'], function () {
 
     /**  Transactions */
     Route::group(['prefix' => 'transactions'], function () {
-        Route::get('/', [TransactionController::class, 'index']);
-        Route::get('/{id}', [TransactionController::class, 'show']);
         Route::post('/', [TransactionController::class, 'store']);
         Route::put('/{id}', [TransactionController::class, 'update']);
         Route::delete('/{id}', [TransactionController::class, 'destroy']);
-        Route::get('/search/{key}', [TransactionController::class, 'search']);
     });
 
     /**  Farms **DONE** */
@@ -132,7 +117,6 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('/register', [AuthController::class, 'register']);
         Route::post('/login', [AuthController::class, 'login']);
     });
-
 
     /** Farms Public Routes **DONE** */
 
