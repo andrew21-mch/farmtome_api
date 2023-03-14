@@ -136,7 +136,7 @@ class OrderController extends Controller
         $order->update([
             'status' => $request->status
         ]);
-        $transaction = TransactionController::createTransaction($order->id, $order->product->price ?? $order->agroInput->price, 'cash', 'pending', Now());
+        $transaction = TransactionController::createTransaction($order->id, $order->product->price ?? $order->agroInput->price, 'cash', $order->status ?? 'pending', Now());
 
         return response()->json([
             'status' => 'success',
