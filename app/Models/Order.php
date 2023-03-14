@@ -43,5 +43,10 @@ class Order extends Model
         return $this->belongsTo(SupplierShop::class);
     }
 
+    public function transaction()
+    {
+        return $this->hasOne(Transaction::class);
+    }
+
 
 }

@@ -154,10 +154,21 @@ class OrderController extends Controller
     }
 
 
-    public function delete($id)
+    public function destroy($id)
     {
-        $order = Order::findOrFail($id);
-        if ($order->createdBy->id != Auth::id() && $order->farmer_id != Auth::id() && $order->supplier_id != Auth::id()) {
+        $order = Order::with('createdBy', 'transaction')->where('id', $id)->first();
+        if($order->transaction){
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Order cannot be deleted',
+                'data' => 'Order has been approved and cannot be deleted'
+            ], 422);
+        }
+        if (
+            $order->customer_id != Auth::id() &&
+            $order->farmer_id != Auth::id() &&
+            $order->supplier_id != Auth::id()
+        ) {
             return response()->json([
                 'status' => 'unauthorized',
                 'message' => 'You are not authorized to delete this order'
@@ -176,10 +187,10 @@ class OrderController extends Controller
     public function view_farm_orders($farmId)
     {
         $farm = Farm::findOrFail($farmId);
-        if(!$farm){
+        if (!$farm) {
             return response()->json([
                 'status' => 'not found',
-                'message' => 'No farm found with id '.$farmId.''
+                'message' => 'No farm found with id ' . $farmId . ''
             ], 401);
         }
         if ($farm->farmer_id != Auth::id()) {
@@ -205,10 +216,10 @@ class OrderController extends Controller
     public function view_supply_shop_orders($supplyShopId)
     {
         $supplyShop = SupplierShop::find($supplyShopId);
-        if(!$supplyShop){
+        if (!$supplyShop) {
             return response()->json([
                 'status' => 'not found',
-                'message' => 'No supply shop found with id '.$supplyShopId.''
+                'message' => 'No supply shop found with id ' . $supplyShopId . ''
             ], 401);
         }
         if ($supplyShop->supplier_id != Auth::id()) {
@@ -230,6 +241,7 @@ class OrderController extends Controller
             'data' => $orders
         ], 200);
     }
+
 
 
 // 1 - view user orders ( viewUserOrders($userId) )
