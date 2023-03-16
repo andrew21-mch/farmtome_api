@@ -49,10 +49,13 @@ class FarmController extends Controller
         }
 
         $user = auth()->user();
+
         try {
+
             $farm = Farm::create([
                 'name' => $request->name,
                 'location' => $request->location,
+                'image' => $request->image,
                 'farmer_id' => $user->id
             ]);
 

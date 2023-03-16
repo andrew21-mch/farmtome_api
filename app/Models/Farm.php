@@ -12,6 +12,7 @@ class Farm extends Model
     protected $fillable = [
         'name',
         'location',
+        'image',
         'farmer_id',
     ];
 
