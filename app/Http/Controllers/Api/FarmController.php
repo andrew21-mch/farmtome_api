@@ -21,7 +21,7 @@ class FarmController extends Controller
 
     public function user_farms($userId): \Illuminate\Http\JsonResponse
     {
-        $farms = Farm::where('user_id', $userId)->get();
+        $farms = Farm::where('farmer_id', $userId)->get();
         return response()->json([
             'message' => 'Farms fetched successfully',
             'farms' => $farms

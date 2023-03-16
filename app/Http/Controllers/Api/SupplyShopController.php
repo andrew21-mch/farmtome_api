@@ -24,13 +24,13 @@ class SupplyShopController extends Controller
     public function user_supply_shops($userId): \Illuminate\Http\JsonResponse
     {
         $user = User::find($userId);
-        if($user){
+        if(!$user){
             return response()->json([
                 'status' => 'error',
                 'message' => 'No user found with such Id'
             ]);
         }
-        $supplyShops = SupplierShop::where('user_id', $userId)->get();
+        $supplyShops = SupplierShop::where('supplier_id', $userId)->get();
         return response()->json([
             'status' => 'success',
             'message' => 'Supply shops fetched successfully',

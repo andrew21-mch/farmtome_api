@@ -127,7 +127,7 @@ Route::group(['prefix' => 'v1'], function () {
     Route::group(['prefix' => 'farms'], function (){
         Route::get('/', [FarmController::class, 'index']);
         Route::get('/{id}', [FarmController::class, 'show']);
-        Route::get('/{userId}', [FarmControlloer::class, 'user_farms']);
+        Route::get('/user/{userId}', [FarmController::class, 'user_farms']);
         Route::get('/search/{key}', [FarmController::class, 'search']);
     });
 
@@ -135,7 +135,7 @@ Route::group(['prefix' => 'v1'], function () {
     Route::group(['prefix' => 'supply_shops'], function() {
         Route::get('/', [SupplyShopController::class, 'index']);
         Route::get('/{id}', [SupplyShopController::class, 'show']);
-        Route::get('/{userId}', [SupplyShopController::class, 'user_supply_shops']);
+        Route::get('/user/{userId}', [SupplyShopController::class, 'user_supply_shops']);
         Route::get('/search/{key}', [SupplyShopController::class, 'search']);
     });
 });
