@@ -195,6 +195,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        \Yish\Imgur\UploadServiceProvider::class,
+        'JD\Cloudder\CloudderServiceProvider'
 
     ],
 
@@ -211,6 +213,8 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
+        'Cloudder' => 'JD\Cloudder\Facades\Cloudder',
+        'Imgur' => Yish\Imgur\Facades\Upload::class,
     ])->toArray(),
 
 ];

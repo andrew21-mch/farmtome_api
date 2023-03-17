@@ -13,6 +13,7 @@ class SupplierShop extends Model
         'name',
         'location',
         'supplier_id',
+        'image',
     ];
 
     public function supplier()

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\GeneneralController;
 use App\Models\SupplierShop;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
@@ -65,6 +66,7 @@ class SupplyShopController extends Controller
         $validators = Validator::make($request->all(), [
             'name' => 'required|string',
             'location' => 'required|string',
+            'image' => 'required'
         ]);
 
         if ($validators->fails()) {
@@ -73,10 +75,12 @@ class SupplyShopController extends Controller
 
         $user = auth()->user();
         try {
+            $image_url = GeneneralController::uploadToImgur($request->image);
             $supplyShop = SupplierShop::create([
                 'name' => $request->name,
                 'location' => $request->location,
-                'supplier_id' => $user->id
+                'supplier_id' => $user->id,
+                'image' => $image_url
             ]);
 
             if(!$user->hasRole('supplier')){

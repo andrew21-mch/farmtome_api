@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\GeneneralController;
 use App\Models\Farm;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Imgur;
+use Str;
 
 class FarmController extends Controller
 {
@@ -42,6 +45,7 @@ class FarmController extends Controller
         $validators = Validator::make($request->all(), [
             'name' => 'required|string',
             'location' => 'required|string',
+            'image' => 'required'
         ]);
 
         if ($validators->fails()) {
@@ -51,15 +55,15 @@ class FarmController extends Controller
         $user = auth()->user();
 
         try {
-
+           $image_url = GeneneralController::uploadToImgur($request->image);
             $farm = Farm::create([
                 'name' => $request->name,
                 'location' => $request->location,
-                'image' => $request->image,
+                'image' => $image_url,
                 'farmer_id' => $user->id
             ]);
 
-            if(!$user->hasRole('farmer')){
+            if (!$user->hasRole('farmer')) {
                 $user->assignRole('farmer');
             }
             return response()->json([
@@ -136,10 +140,11 @@ class FarmController extends Controller
         ]);
     }
 
-    public function search($key){
+    public function search($key)
+    {
 
         $farms = Farm::with('products')->where('name', 'like', '%' . $key . '%')
-        ->orWhere('location', 'like', '%' . $key . '%')->paginate(5);
+            ->orWhere('location', 'like', '%' . $key . '%')->paginate(5);
 
         return response()->json([
             'status' => 'success',
