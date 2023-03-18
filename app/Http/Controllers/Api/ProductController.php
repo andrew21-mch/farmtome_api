@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\GeneneralController;
 use App\Models\Farm;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -70,22 +71,26 @@ class ProductController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string',
             'description' => 'required|string',
-            'price' => 'required|numeric',
-            'farm_id' => 'required|numeric',
-            // 'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'price' => 'required',
+            'farm_id' => 'required',
+            'image' => 'required'
         ]);
 
         if ($validator->fails()) {
             return response()->json([
-                'message' => 'error',
-                'data' => $validator->errors()
-            ]);
+                'status' => 'error',
+                'message' => $validator->errors()
+            ], 422
+        );
         }
+        $image_url = GeneneralController::uploadToImgur($request->image);
+
         try {
             $product = Product::create([
                 'name' => $request->name,
                 'description' => $request->description,
                 'price' => $request->price,
+                'image' => $image_url,
                 'farm_id' => $request->farm_id,
                 'farmer_id' => auth()->user()->id
             ]);
@@ -169,10 +174,6 @@ class ProductController extends Controller
             ]);
         }
         try {
-            if ($product->image) {
-                $image_path = public_path('/images/' . $product->image);
-                unlink($image_path);
-            }
             $product->delete();
             return response()->json([
                 'message' => 'success',

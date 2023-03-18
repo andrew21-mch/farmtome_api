@@ -39,4 +39,18 @@ class GeneneralController extends Controller
         $image_url = $image->data->link;
         return $image_url;
     }
+
+    public static function deleteFromImgur($image)
+    {
+        $client = new \GuzzleHttp\Client();
+        $response = $client->request('DELETE', 'https://api.imgur.com/3/image/' . $image, [
+            'headers' => [
+                    'authorization' => 'Client-ID ' . env('IMGUR_CLIENT_ID'),
+                    'content-type' => 'application/x-www-form-urlencoded',
+                ],
+            ]);
+
+        $image = json_decode($response->getBody()->getContents());
+        return $image;
+    }
 }
