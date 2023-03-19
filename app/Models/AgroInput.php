@@ -21,11 +21,15 @@ class AgroInput extends Model
         'supplier_shop_id'
     ];
 
-    public function user()
+    public function supplier()
     {
         return $this->belongsTo(SupplierShop::class);
     }
 
+    public function supplyShop()
+    {
+        return $this->belongsTo(SupplierShop::class);
+    }
     public function orders()
     {
         return $this->hasMany(Order::class);

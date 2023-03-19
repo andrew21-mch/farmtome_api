@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Nette\Utils\Image;
 use Str;
 
 class GeneneralController extends Controller
@@ -19,10 +20,15 @@ class GeneneralController extends Controller
 
         $image = str_replace(' ', '+', $image);
 
-
         $imageName = Str::random(10) . '.' . $extension;
 
         $actualImage = base64_decode($image);
+
+
+        // resize image
+        $image = Image::fromString($actualImage);
+        $image->resize(250, 250, Image::SHRINK_ONLY);
+        $actualImage = $image->toString();
 
         $client = new \GuzzleHttp\Client();
         $response = $client->request('POST', 'https://api.imgur.com/3/image', [

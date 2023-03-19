@@ -29,4 +29,9 @@ class Product extends Model
         return $this->belongsTo(Farm::class);
     }
 
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
 }

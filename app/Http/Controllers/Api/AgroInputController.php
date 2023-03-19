@@ -13,7 +13,7 @@ class AgroInputController extends Controller
 {
     public function index()
     {
-        $AgroInputs = AgroInput::all();
+        $AgroInputs = AgroInput::with('supplyShop.supplier')->get();
 
         return response()->json([
             'success' => true,

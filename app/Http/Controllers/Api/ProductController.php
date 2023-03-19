@@ -17,7 +17,7 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::with('farm')->get();
+        $products = Product::with('farm.farmer')->get();
         return response()->json([
             'status' => 'success',
             'message' => 'Products successfully retrieved',
