@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\GeneneralController;
 use App\Models\AgroInput;
 use App\Models\SupplierShop;
 use Illuminate\Http\Request;
@@ -13,7 +14,7 @@ class AgroInputController extends Controller
 {
     public function index()
     {
-        $AgroInputs = AgroInput::with('supplyShop.supplier')->get();
+        $AgroInputs = AgroInput::with('supplierShop.supplier')->get();
 
         return response()->json([
             'success' => true,
@@ -54,14 +55,13 @@ class AgroInputController extends Controller
             'description' => 'required',
             'price' => 'required',
             'supplier_shop_id' => 'required',
-            // 'image' => 'required'
+            'image' => 'required'
         ]);
 
         if ($validators->fails()) {
             return response()->json([
                 'success' => false,
-                'message' => 'Please check your input',
-                'data' => $validators->errors()
+                'message' => $validators->errors()
             ], 400);
         }
 
@@ -85,12 +85,15 @@ class AgroInputController extends Controller
         }
 
         try {
+
+            $image_url = GeneneralController::uploadToImgur($request->image);
             $AgroInput = AgroInput::create([
                 'name' => $request->name,
                 'description' => $request->description,
                 'price' => $request->price,
                 'supplier_id' => auth()->user()->id,
-                'supplier_shop_id' => $request->supplier_shop_id
+                'supplier_shop_id' => $request->supplier_shop_id,
+                'image' => $image_url
             ]);
 
             return response()->json([

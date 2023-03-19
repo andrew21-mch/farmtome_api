@@ -23,10 +23,10 @@ class AgroInput extends Model
 
     public function supplier()
     {
-        return $this->belongsTo(SupplierShop::class);
+        return $this->belongsTo(User::class);
     }
 
-    public function supplyShop()
+    public function supplierShop()
     {
         return $this->belongsTo(SupplierShop::class);
     }
