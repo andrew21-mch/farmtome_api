@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Api\ProductController;
+use App\Models\AgroInput;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Nette\Utils\Image;
 use Str;
@@ -58,5 +61,27 @@ class GeneneralController extends Controller
 
         $image = json_decode($response->getBody()->getContents());
         return $image;
+    }
+
+    public static function search($key){
+        $inputs = AgroInput::with('supplierShop.supplier')->where('name', 'like', '%' . $key . '%')
+        ->orWhere('description', 'like', '%' . $key . '%')
+        ->orWhere('price', 'like', '%' . $key . '%')
+        ->get();
+
+        $products = $products = Product::with('farm.farmer')
+        ->where('name', 'like', '%' . $key . '%')
+        ->orWhere('description', 'like', '%' . $key . '%')
+        ->orWhere('price', 'like', '%' . $key . '%')
+        ->get();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Products successfully retrieved',
+            'data' => [
+                'products' => $products,
+                'inputs' => $inputs
+            ]
+        ]);
     }
 }

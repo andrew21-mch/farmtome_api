@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\SupplyShopController;
 use App\Http\Controllers\Api\TransactionController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\GeneneralController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -115,6 +116,8 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('/{id}', [AgroInputController::class, 'show']);
         Route::get('/search/{key}', [AgroInputController::class, 'search']);
     });
+
+    Route::get('/general-search/{key}', [GeneneralController::class, 'search']);
 
     /**  Users **DONE***/
     Route::group(['prefix' => 'auth'], function () {
