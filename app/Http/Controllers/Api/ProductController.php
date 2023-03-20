@@ -27,7 +27,7 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        $product = Product::with('farm')->find($id);
+        $product = Product::with('farm.farmer')->find($id);
         return response()->json([
             'status' => 'success',
             'message' => 'Product successfully retrieved',

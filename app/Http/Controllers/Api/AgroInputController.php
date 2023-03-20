@@ -25,7 +25,7 @@ class AgroInputController extends Controller
 
     public function show($id)
     {
-        $AgroInput = AgroInput::find($id);
+        $AgroInput = AgroInput::with('supplierShop.supplier')->find($id);
 
         return response()->json([
             'success' => true,
