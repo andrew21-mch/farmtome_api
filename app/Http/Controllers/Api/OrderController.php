@@ -19,13 +19,7 @@ class OrderController extends Controller
 {
     public function viewUserOrders(Request $request)
     {
-        $orders = Order::with('product', 'AgroInput')->where('customer_id', Auth::id())->get();
-        if ($orders->isEmpty()) {
-            return response()->json([
-                'status' => 'not found',
-                'message' => 'No orders found'
-            ], 404);
-        }
+        $orders = Order::with('product', 'AgroInput', 'customer')->where('customer_id', Auth::id())->get();
         return response()->json([
             'status' => 'success',
             'message' => 'Orders found',
@@ -33,6 +27,18 @@ class OrderController extends Controller
         ], 200);
     }
 
+    public function viewOrders(Request $request)
+    {
+        $user = Auth::user();
+        $farms = Farm::where('farmer_id', $user->id)->get();
+        $shops = SupplierShop::where('supplier_id', $user->id)->get();
+        $orders = Order::with('customer', 'product', 'AgroInput')->whereIn('supplier_shop_id', $shops->pluck('id'))->orWhereIn('farm_id', $farms->pluck('id'))->get();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Orders found',
+            'data' => $orders
+        ], 200);
+    }
     public function show($id)
     {
         $order = Order::with('product', 'createdBy', 'agroInput')->where('id', $id)->first();
@@ -86,8 +92,7 @@ class OrderController extends Controller
                 $product = Product::find($request->product_id);
             }
 
-            $order = Order::where('product_id', $request->product_id)
-                ->first();
+            $order = Order::where('product_id', $request->product_id)->where('customer_id', auth()->user()->id)->first();
             if ($order) {
                 return response()->json([
                     'status' => 'error',
@@ -243,6 +248,9 @@ class OrderController extends Controller
             'data' => $orders
         ], 200);
     }
+
+
+
 
 
 

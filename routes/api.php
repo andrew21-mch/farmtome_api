@@ -56,11 +56,12 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth:sanctum'], function () {
 
     /**  Orders */
     Route::group(['prefix' => 'orders'], function () {
+        Route::get('', [OrderController::class, 'viewOrders']);
         Route::get('/{id}', [OrderController::class, 'show']);
-        Route::get('/user/get', [OrderController::class, 'viewUserOrders']);
+        Route::get('user/get', [OrderController::class, 'viewUserOrders']);
         Route::get('/farm/get/{farmId}', [OrderController::class, 'view_farm_orders']);
         Route::get('/supplyShop/get/{supplyShopId}', [OrderController::class, 'view_supply_shop_orders']);
-        Route::post('/', [OrderController::class, 'store']);
+        Route::post('', [OrderController::class, 'store']);
         Route::put('/{id}', [OrderController::class, 'update']);
         Route::delete('/{id}', [OrderController::class, 'destroy']);
     });
