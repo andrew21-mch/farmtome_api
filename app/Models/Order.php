@@ -16,6 +16,10 @@ class Order extends Model
         'supplier_shop_id',
         'farm_id',
         'status',
+        'payment_method',
+        'payment_status',
+        'delivery_method',
+        'delivery_address',
     ];
 
     public function AgroInput()

@@ -64,36 +64,45 @@ class OrderController extends Controller
     public function store(Request $request)
     {
 
-        if (!$request->product_id && !$request->AgroInput_id) {
+        if (!$request->product_id && !$request->agro_input_id) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Validation error',
-                'data' => 'Either product_id or AgroInput_id is required'
+                'message' => 'Either product or agro input is required'
             ], 422);
         }
 
-        if ($request->product_id && $request->AgroInput_id) {
+        if ($request->product_id && $request->agro_input_id) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Validation error',
-                'data' => 'Only one of product_id or AgroInput_id is required'
+                'message' => 'Only one of product or agro input is required'
             ], 422);
         }
 
         try {
-            if ($request->AgroInput_id) {
-                $agroInput = AgroInput::find($request->AgroInput_id);
+            if ($request->agro_input_id) {
+                $agroInput = AgroInput::find($request->agro_input_id);
             }
             if ($request->product_id) {
                 $product = Product::find($request->product_id);
             }
 
+            $order = Order::where('product_id', $request->product_id)
+                ->first();
+            if ($order) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'You have already ordered this product',
+                ], 422);
+            }
             $order = Order::create([
                 'product_id' => $request->product_id,
-                'AgroInput_id' => $request->AgroInput_id,
+                'AgroInput_id' => $request->agro_input_id,
                 'customer_id' => auth()->user()->id,
                 'farm_id' => $request->farm_id,
                 'supplier_shop_id' => $request->supplier_shop_id,
+                'deliver_method' => $request->deliver_method,
+                'payment_method' => $request->payment_method,
+                'delivery_address' => $request->delivery_address,
                 'status' => 'pending',
             ]);
 
