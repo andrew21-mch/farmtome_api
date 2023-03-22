@@ -41,23 +41,23 @@ class OrderController extends Controller
     }
     public function show($id)
     {
-        $order = Order::with('product', 'createdBy', 'agroInput')->where('id', $id)->first();
+        $order = Order::with('product', 'customer', 'agroInput')->where('id', $id)->first();
         if (!$order) {
             return response()->json([
                 'status' => 'not found',
                 'message' => 'Order not found'
-            ], 404);
+            ], 200);
         }
 
         if (
             ($order->product && $order->product->farmer_id != auth()->user()->id) &&
             ($order->AgroInput && $order->AgroInput->supplier_id != auth()->user()->id) &&
-            $order->createdBy->id != auth()->user()->id
+            $order->customer->id != auth()->user()->id
         ) {
             return response()->json([
                 'status' => 'unauthorized',
                 'message' => 'You are not authorized to view this order'
-            ], 401);
+            ], 200);
         }
 
         return response()->json([
@@ -74,14 +74,14 @@ class OrderController extends Controller
             return response()->json([
                 'status' => 'error',
                 'message' => 'Either product or agro input is required'
-            ], 422);
+            ], 200);
         }
 
         if ($request->product_id && $request->agro_input_id) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Only one of product or agro input is required'
-            ], 422);
+            ], 200);
         }
 
         try {
@@ -97,7 +97,7 @@ class OrderController extends Controller
                 return response()->json([
                     'status' => 'error',
                     'message' => 'You have already ordered this product',
-                ], 422);
+                ], 200);
             }
             $order = Order::create([
                 'product_id' => $request->product_id,
@@ -121,7 +121,7 @@ class OrderController extends Controller
                 'status' => 'error',
                 'message' => $e->getMessage(),
                 'data' => 'Product not found'
-            ], 422);
+            ], 200);
         }
     }
 
@@ -132,7 +132,7 @@ class OrderController extends Controller
             return response()->json([
                 'status' => 'unauthorized',
                 'message' => 'You are not authorized to update this order'
-            ], 401);
+            ], 200);
         }
 
         $validator = Validator::make($request->all(), [
@@ -144,7 +144,7 @@ class OrderController extends Controller
                 'status' => 'error',
                 'message' => 'Validation error',
                 'data' => $validator->errors()
-            ], 422);
+            ], 200);
         }
 
         $order->update([
@@ -163,13 +163,13 @@ class OrderController extends Controller
 
     public function destroy($id)
     {
-        $order = Order::with('createdBy', 'transaction')->where('id', $id)->first();
+        $order = Order::with('customer', 'transaction')->where('id', $id)->first();
         if($order->transaction){
             return response()->json([
                 'status' => 'error',
                 'message' => 'Order cannot be deleted',
                 'data' => 'Order has been approved and cannot be deleted'
-            ], 422);
+            ], 200);
         }
         if (
             $order->customer_id != Auth::id() &&
@@ -179,7 +179,7 @@ class OrderController extends Controller
             return response()->json([
                 'status' => 'unauthorized',
                 'message' => 'You are not authorized to delete this order'
-            ], 401);
+            ], 200);
         }
 
         $order->delete();
@@ -198,20 +198,20 @@ class OrderController extends Controller
             return response()->json([
                 'status' => 'not found',
                 'message' => 'No farm found with id ' . $farmId . ''
-            ], 401);
+            ], 200);
         }
         if ($farm->farmer_id != Auth::id()) {
             return response()->json([
                 'status' => 'unauthorized',
                 'message' => 'You are not authorized to view this farm orders'
-            ], 401);
+            ], 200);
         }
         $orders = $farm->orders()->with('product')->get();
         if ($orders->isEmpty()) {
             return response()->json([
                 'status' => 'not found',
                 'message' => 'No orders found'
-            ], 404);
+            ], 200);
         }
         return response()->json([
             'status' => 'success',
@@ -227,20 +227,20 @@ class OrderController extends Controller
             return response()->json([
                 'status' => 'not found',
                 'message' => 'No supply shop found with id ' . $supplyShopId . ''
-            ], 401);
+            ], 200);
         }
         if ($supplyShop->supplier_id != Auth::id()) {
             return response()->json([
                 'status' => 'unauthorized',
                 'message' => 'You are not authorized to view this supplier orders'
-            ], 401);
+            ], 200);
         }
         $orders = $supplyShop->orders()->with('agroInput')->get();
         if ($orders->isEmpty()) {
             return response()->json([
                 'status' => 'not found',
                 'message' => 'No orders found'
-            ], 404);
+            ], 200);
         }
         return response()->json([
             'status' => 'success',
