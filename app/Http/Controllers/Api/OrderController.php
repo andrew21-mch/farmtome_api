@@ -164,31 +164,39 @@ class OrderController extends Controller
     public function destroy($id)
     {
         $order = Order::with('customer', 'transaction')->where('id', $id)->first();
-        if($order->transaction){
+        if ($order->transaction) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Order cannot be deleted',
                 'data' => 'Order has been approved and cannot be deleted'
             ], 200);
         }
-        if (
-            $order->customer_id != Auth::id() &&
-            $order->farmer_id != Auth::id() &&
-            $order->supplier_id != Auth::id()
-        ) {
+        try {
+            if (
+                $order->customer->id != Auth::id() &&
+                $order->farmer_id != Auth::id() &&
+                $order->supplier_id != Auth::id()
+            ) {
+                return response()->json([
+                    'status' => 'unauthorized',
+                    'message' => 'You are not authorized to delete this order'
+                ], 200);
+            }
+
+            $order->delete();
+
             return response()->json([
-                'status' => 'unauthorized',
-                'message' => 'You are not authorized to delete this order'
+                'status' => 'success',
+                'message' => 'Order deleted',
+                'data' => $order
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+                'data' => 'Order not found'
             ], 200);
         }
-
-        $order->delete();
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Order deleted',
-            'data' => $order
-        ], 200);
     }
 
     public function view_farm_orders($farmId)
